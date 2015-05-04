@@ -1,5 +1,6 @@
 {application, ezic,
  [
+  {description, ""},
   {registered, []},
   {vsn, "0.2.0"},
   {applications, [
