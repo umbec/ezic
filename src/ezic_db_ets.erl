@@ -58,11 +58,11 @@ get_all(Tab) ->
 
 
 insert_all(Records) ->
-    Zones= [ZI || ZI <- Records, ZI = #zone{}],
+    Zones= [ZI || ZI=#zone{} <- Records],
     ets:insert(zone, Zones),
-    Rules= [RI || RI <- Records, RI = #rule{}],
+    Rules= [RI || RI=#rule{} <- Records],
     ets:insert(rule, Rules),
-    FlatZones= [FZ || FZ <- Records, FZ = #flatzone{}],
+    FlatZones= [FZ || FZ=#flatzone{} <- Records],
     ets:insert(flatzone, FlatZones).
 
 
