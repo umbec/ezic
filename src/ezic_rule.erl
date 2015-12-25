@@ -1,5 +1,5 @@
 -module(ezic_rule).
--include("include/ezic.hrl").
+-include("ezic.hrl").
 
 
 -export([parse/1]).

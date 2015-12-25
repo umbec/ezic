@@ -1,5 +1,5 @@
 -module(ezic_flatten).
--include("include/ezic.hrl").
+-include("ezic.hrl").
 
 
 -define(FLAT(W,S,U), #flatzone{wall_from=W, std_from=S, utc_from=U}).

@@ -1,5 +1,5 @@
 -module(ezic_loader).
--include("include/ezic.hrl").
+-include("ezic.hrl").
 
 -export([load/0, load/1]).
 -define(TZDIR, filename:join("priv", "tzdata")).

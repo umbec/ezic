@@ -1,5 +1,5 @@
 -module(ezic_db_ets).
--include("include/ezic.hrl").
+-include("ezic.hrl").
 -include_lib("eunit/include/eunit.hrl").
 
 -define(DB_FILENAME, "db.e2f").

@@ -1,5 +1,5 @@
 -module(ezic).
--include("include/ezic.hrl").
+-include("ezic.hrl").
 
 -export([
 	 localtime/1

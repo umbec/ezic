@@ -1,5 +1,5 @@
 -module(ezic_db_mnesia).
--include("include/ezic.hrl").
+-include("ezic.hrl").
 -include_lib("stdlib/include/qlc.hrl").
 -include_lib("eunit/include/eunit.hrl").
 

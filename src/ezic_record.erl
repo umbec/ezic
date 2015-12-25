@@ -1,5 +1,5 @@
 -module(ezic_record).
--include("include/ezic.hrl").
+-include("ezic.hrl").
 -include_lib("eunit/include/eunit.hrl").
 
 
