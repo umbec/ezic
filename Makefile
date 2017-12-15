@@ -27,8 +27,8 @@ compile :
 	-erl -noshell -pa ebin -s erldev make_app . -s erlang halt
 
 clean : 
-	-@rm ebin/*
-	-@rm erl_crash.dump
+	-@rm -f ebin/*
+	-@rm -f erl_crash.dump
 
 
 run :
