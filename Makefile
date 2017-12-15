@@ -22,6 +22,7 @@ test : all run
 
 
 compile :
+	mkdir -p ebin
 	erlc $(DEBUG) $(TEST) $(ERLC_WARNINGS) $(OPTIONS) -o ./ebin $(COMPILE)
 	-erl -noshell -pa ebin -s erldev make_app . -s erlang halt
 
