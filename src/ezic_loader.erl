@@ -37,7 +37,9 @@ load(Dir) ->
 % note: assumes every file in the folder is a tzdata file
 parse_dir(Dir) ->
     {ok, Files} = file:list_dir(Dir),
-    lists:flatten([ parse_file(filename:join(Dir,File)) || File <- Files ]).
+    {ok, Relevants} = application:get_env(relevant_files),
+    FoundFiles = [File || File <- Files, lists:member(File, Relevants)],
+    lists:flatten([ parse_file(filename:join(Dir,File)) || File <- FoundFiles]).
 
 
 
