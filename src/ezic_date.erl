@@ -136,7 +136,8 @@ month_to_num("January") -> 1;
 month_to_num("February") -> 2;
 month_to_num("March") -> 3;
 month_to_num("April") -> 4;
-month_to_num("May") -> 5;
+%% Matched above
+%month_to_num("May") -> 5;
 month_to_num("June") -> 6;
 month_to_num("July") -> 7;
 month_to_num("August") -> 8;
