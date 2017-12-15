@@ -2,9 +2,8 @@
 -include("ezic.hrl").
 
 -export([load/0, load/1]).
--define(TZDIR, filename:join("priv", "tzdata")).
 
-
+-define(TZDIR, filename:join(code:priv_dir(ezic), "tzdata")).
 
 load() ->
     case application:get_env(tzdata_dir) of

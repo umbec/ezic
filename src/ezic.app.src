@@ -10,7 +10,6 @@
   {mod, {ezic_app, ezic_db_ets}},
   {env, [
          {db_dir, "db"},
-         {tzdata_dir, "priv/tzdata"},
          {relevant_files, ["africa","antarctica","asia",
                            "australasia","backward","backzone",
                            "etcetera","europe","leapseconds",
