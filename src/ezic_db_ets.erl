@@ -5,17 +5,17 @@
 -define(DB_FILENAME, "db.e2f").
 
 -export([
-	 init/0
-	 , zones/1
-	 , rules/1
-	 , flatzones/1
-	 , flatzone/2
-	 %, insert/2
-	 , get_all/1
-	 , insert_all/1
-	 , wipe/1
-	 , implementation/0
-	]).
+     init/0
+     , zones/1
+     , rules/1
+     , flatzones/1
+     , flatzone/2
+     %, insert/2
+     , get_all/1
+     , insert_all/1
+     , wipe/1
+     , implementation/0
+    ]).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -38,14 +38,14 @@ flatzones(TzName) ->
 flatzone(Date, TzName) ->
     FlatZones= ets:select(flatzone, ezic_flatten:ms(Date, TzName)),
     case length(FlatZones) of
-	1 ->
-	    hd(FlatZones);
-	2 ->
-	    {error, {ambiguous_zone, FlatZones}};
-	0 ->
-	    {error, no_zone};
-	_ ->
-	    {error, {should_not_happen, {FlatZones, Date, TzName}}}
+    1 ->
+        hd(FlatZones);
+    2 ->
+        {error, {ambiguous_zone, FlatZones}};
+    0 ->
+        {error, no_zone};
+    _ ->
+        {error, {should_not_happen, {FlatZones, Date, TzName}}}
     end.
 
 
@@ -78,8 +78,8 @@ init() ->
     {ok, DbDir}= application:get_env(db_dir),
     Filename= filename:join(DbDir, ?DB_FILENAME),
     case db_sane(Filename) of
-	true -> load_tabfile(Filename);
-	false -> create_tables(Filename)
+    true -> load_tabfile(Filename);
+    false -> create_tables(Filename)
     end,
     {ok, []}.
 
@@ -93,8 +93,8 @@ db_sane(Filename) ->
     %% @todo ensure data is present for each record type.
 
     case ets:tabfile_info(Filename) of
-	{ok, _} -> true;
-	{error, _} -> false
+    {ok, _} -> true;
+    {error, _} -> false
     end.
 
 

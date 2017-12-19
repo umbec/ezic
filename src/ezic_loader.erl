@@ -16,10 +16,10 @@ load() ->
 %% returns all records, parsed from the tzdata files in directory Dir.
 load(Dir) ->
     {ok, Records} =
-	case filelib:is_dir(Dir) of
-	    true -> {ok, parse_dir(Dir)};
-	    false -> erlang:error({not_a_directory, Dir})
-	end,
+    case filelib:is_dir(Dir) of
+        true -> {ok, parse_dir(Dir)};
+        false -> erlang:error({not_a_directory, Dir})
+    end,
 
     Records.
 
@@ -56,8 +56,8 @@ parse_lines(eof, _, Records) ->
 parse_lines({ok, Line}, File, Records) ->
     StrLine= clean_line(Line),
     NewRecords= case length(StrLine) > 0 of
-	true -> [parse_to_record(StrLine, File, Records) | Records];
-	false -> Records
+    true -> [parse_to_record(StrLine, File, Records) | Records];
+    false -> Records
     end,
     parse_lines(file:read_line(File), File, NewRecords).
 
@@ -95,8 +95,8 @@ clean_line(Line) ->
     FinalLine=Line3,
     CPos= string:chr(FinalLine, $#),
     case CPos of
-	0 -> FinalLine;
-	_ -> string:sub_string(FinalLine, 1, CPos-1)
+    0 -> FinalLine;
+    _ -> string:sub_string(FinalLine, 1, CPos-1)
     end.
 
 

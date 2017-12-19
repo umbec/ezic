@@ -6,27 +6,27 @@
 
 
 -export([
-	 zones/1
-	 , rules/1
-	 , flatzones/1
-	 , flatzone/2
-	 %, insert/2
-	 , get_all/1
-	 , insert_all/1
-	 , wipe/1
-	 , flatten/0
-	 , get_implementation/0
-	]).
+     zones/1
+     , rules/1
+     , flatzones/1
+     , flatzone/2
+     %, insert/2
+     , get_all/1
+     , insert_all/1
+     , wipe/1
+     , flatten/0
+     , get_implementation/0
+    ]).
 
 -export([
-	 start_link/1
-	 , init/1
-	 , code_change/3
-	 , handle_call/3
-	 , handle_cast/2
-	 , handle_info/2
-	 , terminate/2
-	 ]).
+     start_link/1
+     , init/1
+     , code_change/3
+     , handle_call/3
+     , handle_cast/2
+     , handle_info/2
+     , terminate/2
+     ]).
 
 
 -record(state, {mod}).
@@ -86,7 +86,7 @@ start_link(StartArgs) ->
 
 %% TODO: create a db behavior
 init(DbModule) when DbModule =:= ezic_db_mnesia;
-		    DbModule=:= ezic_db_ets ->
+            DbModule=:= ezic_db_ets ->
     DbModule:init(),
     State = #state{mod = DbModule},
     {ok, State}.

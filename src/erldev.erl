@@ -14,10 +14,10 @@ make_app([AppDirAtom]) ->
     AppDir = atom_to_list(AppDirAtom),
     Modules = get_modules(AppDir),
     AppSrc = try   get_app_src(AppDir)
-	     catch error:{badmatch, _} ->
-%		     error_logger:error_msg("Couldn't get AppSrcFile for ~p~n", [AppDir]),
-		     erlang:halt()
-	     end,
+         catch error:{badmatch, _} ->
+%             error_logger:error_msg("Couldn't get AppSrcFile for ~p~n", [AppDir]),
+             erlang:halt()
+         end,
     {application, Name, Opts} = AppSrc,
     NewOpts = [ {modules, Modules} | Opts ],
     AppFile = filename:join([AppDir, "ebin", atom_to_list(Name) ++ ".app"]),
@@ -33,7 +33,7 @@ get_modules(AppDir) ->
     lists:map(
       fun(X)-> filename:basename(X, ".erl") end,
       filelib:wildcard(
-	filename:join([AppDir, "src", "*.erl"])
+    filename:join([AppDir, "src", "*.erl"])
        )
      ).
 

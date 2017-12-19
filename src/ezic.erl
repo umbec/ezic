@@ -9,7 +9,7 @@
    , has_dst_local/2
    , offset_utc/2
    , offset_local/2
-	]).
+   ]).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -79,8 +79,8 @@ utc_to_local_handleFlatzone(_, X={error,_}) ->
 utc_to_local_handleFlatzone(UTCDatetime, #flatzone{offset=Offset, dstoffset=DSTOffset}) ->
     ezic_date:add_offset(
       ezic_date:add_offset(
-    	UTCDatetime
-    	, Offset)
+        UTCDatetime
+        , Offset)
       , DSTOffset).
 
 
@@ -89,8 +89,8 @@ local_to_utc_handleFlatzone(_, X={error, _}) ->
 local_to_utc_handleFlatzone(LocalDatetime, #flatzone{offset=Offset, dstoffset=DSTOffset}) ->
     ezic_date:add_offset(
       ezic_date:add_offset(
-    	LocalDatetime
-    	, Offset, {0,0,0})
+        LocalDatetime
+        , Offset, {0,0,0})
       , DSTOffset, {0,0,0}).
 
 has_dst(Datetime, TzName, Flag) ->

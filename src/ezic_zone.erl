@@ -3,16 +3,16 @@
 -include_lib("eunit/include/eunit.hrl").
 
 -export([
-	 parse/1
-	 , current/1
-	 , current_as_of_utc/2
-	 , split_by_name/2
-	 , offset_sec/1
+     parse/1
+     , current/1
+     , current_as_of_utc/2
+     , split_by_name/2
+     , offset_sec/1
 
-	 , project_end/2
-	 , project_end_utc/2
-	 , next/3
-	]).
+     , project_end/2
+     , project_end_utc/2
+     , next/3
+    ]).
 
 
 
@@ -56,7 +56,7 @@ get_zone_utc(_UTCDatetime, _Zones) ->
 split_by_name(#zone{name=N}, Zones) ->
     lists:partition(
       fun(#zone{name=NI}) ->
-	      N =:= NI
+          N =:= NI
       end
       , Zones).
 
@@ -98,12 +98,12 @@ next(ZoneList, UTCFrom, DSTOff) ->
     %% ?debugVal(UTCFrom),
 
     DatedList= lists:map(
-		 fun(Z=#zone{until=Until, gmtoff=Offset})->
-			 NUntil= ezic_date:normalize(Until),
-			 {_,_,UTCDt}= ezic_date:all_times(NUntil, Offset, DSTOff),
-			 {UTCDt, Z}
-		 end
-		 , ZoneList),
+         fun(Z=#zone{until=Until, gmtoff=Offset})->
+             NUntil= ezic_date:normalize(Until),
+             {_,_,UTCDt}= ezic_date:all_times(NUntil, Offset, DSTOff),
+             {UTCDt, Z}
+         end
+         , ZoneList),
     FilteredList= lists:filter(fun({IDt,_})-> ezic_date:compare(UTCFrom, IDt) end, DatedList),
     SortedList= lists:sort(fun({X,_},{Y,_})->ezic_date:compare(X,Y)end, FilteredList),
     [Z || {_,Z}<- SortedList].

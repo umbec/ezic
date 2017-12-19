@@ -5,32 +5,32 @@
 
 
 -export([
-	 normalize/1
-	 , normalize/2
+     normalize/1
+     , normalize/2
 
-	 % rule-specific
-	 , for_rule_relative/2
-	 , for_rule/5
-	 , for_rule_utc/4
-
-
-	 % converters
-	 , month_to_num/1
-	 , day_to_num/1
+     % rule-specific
+     , for_rule_relative/2
+     , for_rule/5
+     , for_rule_utc/4
 
 
-	 % date math
-	 , add_seconds/2
-	 , add_offset/2
-	 , add_offset/3
-	 , all_times/3
-	 , m1s/1
-	 , m1s/3
+     % converters
+     , month_to_num/1
+     , day_to_num/1
 
-	 % comparisons
-	 , compare/2
-	 , equal/2
-	]).
+
+     % date math
+     , add_seconds/2
+     , add_offset/2
+     , add_offset/3
+     , all_times/3
+     , m1s/1
+     , m1s/3
+
+     % comparisons
+     , compare/2
+     , equal/2
+    ]).
 
 
 
@@ -67,12 +67,12 @@ normalize({D={_,_,_},T={HH,_,_}}, Flag)
 
 normalize(D, Flag) ->
     case normalize(D) of
-	X when is_atom(X) -> X;
-	X when is_record(X, tztime) ->
-	    X#tztime{flag=Flag};
-	_ ->
-	    erlang:error(badDateTime, D)
-	end.
+    X when is_atom(X) -> X;
+    X when is_record(X, tztime) ->
+        X#tztime{flag=Flag};
+    _ ->
+        erlang:error(badDateTime, D)
+    end.
 
 
 
@@ -166,7 +166,7 @@ add_seconds(Datetime, Seconds) ->
       calendar:datetime_to_gregorian_seconds(Datetime) + Seconds
      )
     catch
-	error:_ -> erlang:error(baddate, Datetime)
+    error:_ -> erlang:error(baddate, Datetime)
     end.
 
 
@@ -264,7 +264,7 @@ when is_integer(Y1), is_integer(Y2)
 
 
 compare({Date1, #tztime{time=Time1, flag=F}}
-	, {Date2, #tztime{time=Time2, flag=F}}) ->
+    , {Date2, #tztime{time=Time2, flag=F}}) ->
 
     Date1 =< Date2 orelse Time1 =< Time2;
 
@@ -308,10 +308,10 @@ previous_day(Day, Date) ->
     Daynum= day_to_num(Day),
     LeqDoW= calendar:day_of_the_week(Date),
     case Daynum=:=LeqDoW of
-	true -> Date;
-	_ ->
-	    DayDiff= day_diff(LeqDoW, Daynum),
-	    add_days_in_month(-DayDiff, Date)
+    true -> Date;
+    _ ->
+        DayDiff= day_diff(LeqDoW, Daynum),
+        add_days_in_month(-DayDiff, Date)
     end.
 
 
@@ -321,10 +321,10 @@ next_day(Day, Date) ->
     Daynum= day_to_num(Day),
     LeqDoW= calendar:day_of_the_week(Date),
     case Daynum=:=LeqDoW of
-	true -> Date;
-	_ ->
-	    DayDiff= day_diff(Daynum, LeqDoW),
-	    add_days_in_month(DayDiff, Date)
+    true -> Date;
+    _ ->
+        DayDiff= day_diff(Daynum, LeqDoW),
+        add_days_in_month(DayDiff, Date)
     end.
 
 
@@ -332,8 +332,8 @@ next_day(Day, Date) ->
 %   given some current day-of-the-week.
 day_diff(From, To) ->
     case From - To < 0 of
-	true -> From - To + 7;
-	_ -> From - To
+    true -> From - To + 7;
+    _ -> From - To
     end.
 
 
@@ -341,12 +341,12 @@ day_diff(From, To) ->
 % errors-out if arguments require change of month
 add_days_in_month(Days, Date={Y,M,D}) ->
     case D+Days < 1 of
-	true -> erlang:error(no_previous_day, {Days, Date});
-	_ ->
-	    case D+Days > calendar:last_day_of_the_month(Y,M) of
-		true -> erlang:error(no_next_day, {Days, Date});
-		_ -> {Y,M,D+Days}
-	    end
+    true -> erlang:error(no_previous_day, {Days, Date});
+    _ ->
+        case D+Days > calendar:last_day_of_the_month(Y,M) of
+        true -> erlang:error(no_next_day, {Days, Date});
+        _ -> {Y,M,D+Days}
+        end
     end.
 
 

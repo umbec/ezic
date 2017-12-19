@@ -20,7 +20,7 @@ parse([Name,FromS,ToS,_Type,InS,OnS,AtS,SaveS,Letters]) ->
     Save= ezic_parse:time_val(SaveS),
 
     Rule= #rule{name=Name, from=From, to=To, type=not_done,
-		in=In, on=On, at=At, save=Save, letters=Letters},
+        in=In, on=On, at=At, save=Save, letters=Letters},
     {ok, Rule}.
 
 
@@ -75,10 +75,10 @@ project_next2(_,_,_,_,none) ->
 project_next2(Rule, Offset, UTCAfter, DSTOffset, Years={FromYear, _}) ->
     RuleDate= ezic_date:for_rule_utc(Rule, Offset, DSTOffset, FromYear),
     case ezic_date:compare(UTCAfter, RuleDate) andalso (not ezic_date:equal(UTCAfter, RuleDate)) of
-	true -> {FromYear, RuleDate};
-	false ->
-	    RestYears= years_after(FromYear+1, Years),
-	    project_next2(Rule, Offset, UTCAfter, DSTOffset, RestYears)
+    true -> {FromYear, RuleDate};
+    false ->
+        RestYears= years_after(FromYear+1, Years),
+        project_next2(Rule, Offset, UTCAfter, DSTOffset, RestYears)
     end.
 
 

@@ -4,10 +4,10 @@
 
 
 -export([
-	 link/1
-	 , leap/1
-	 , separate/1
-	]).
+     link/1
+     , leap/1
+     , separate/1
+    ]).
 
 
 

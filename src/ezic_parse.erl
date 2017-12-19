@@ -3,13 +3,13 @@
 
 
 -export([
-	 year/1
-	 , day_pattern/1
-	 , time/1
-	 , time_val/1
-	 , until/1
-	 , tz_abbr/1
-	]).
+     year/1
+     , day_pattern/1
+     , time/1
+     , time_val/1
+     , until/1
+     , tz_abbr/1
+    ]).
 
 
 
@@ -27,8 +27,8 @@ year(X) ->
 % X=last(Mon,Tue,Wed,...,Sun) -> {last, (Mon,Tue,Web,...,Sun)}
 day_pattern(X=[$l,$a,$s,$t|Day]) ->
     case ezic_date:day_to_num(Day) > 0 of
-	true -> {last, Day};
-	false -> erlang:error(badday,X)
+    true -> {last, Day};
+    false -> erlang:error(badday,X)
     end;
 % X=(Mon,Tue,Wed,...,Sun)[<>]=int().
 day_pattern(X=[D,A,Y, Sign,$= | IntS]) ->
@@ -37,8 +37,8 @@ day_pattern(X=[D,A,Y, Sign,$= | IntS]) ->
     {ok, FSign}= sign(Sign),
 
     case ezic_date:day_to_num(Day) > 0 of
-	true -> #tzon{day=Day, filter={FSign, Int}};
-	false -> erlang:error(badday, X)
+    true -> #tzon{day=Day, filter={FSign, Int}};
+    false -> erlang:error(badday, X)
     end;
 % X=int()
 day_pattern(X) ->

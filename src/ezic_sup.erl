@@ -41,7 +41,7 @@ start_link(StartArgs) ->
 %%--------------------------------------------------------------------
 init(StartArgs) ->
     EzicDb = {ezic_db,{ezic_db, start_link, [StartArgs]},
-	      permanent,2000,worker,[ezic_db]},
+          permanent,2000,worker,[ezic_db]},
     {ok,{{one_for_all,3,30}, [EzicDb]}}.
 
 %%====================================================================
