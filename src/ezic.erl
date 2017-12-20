@@ -9,6 +9,7 @@
    , has_dst_local/2
    , offset_utc/2
    , offset_local/2
+   , timezone_exists/1
    ]).
 
 
@@ -69,6 +70,17 @@ offset_utc(Datetime, TzName) ->
 
 offset_local(Datetime, TzName) ->
   offset_lookup(Datetime, TzName, w).
+
+%% ---------------------------------------------------------------------------
+
+-spec timezone_exists(Timezone) -> Res when
+  Timezone :: list(),
+  Res :: boolean().
+
+timezone_exists(Timezone) when is_list(Timezone) ->
+  length(ezic_db:zones(Timezone)) > 0;
+timezone_exists(_Timezone) ->
+  false.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % PRIVATE
