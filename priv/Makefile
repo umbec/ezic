@@ -1,4 +1,6 @@
 
+relevants = africa antarctica asia australasia backward backzone etcetera europe leapseconds northamerica pacificnew southamerica systemv
+
 download : tzdata/downloaded
 
 tzdata/downloaded :
@@ -6,7 +8,7 @@ tzdata/downloaded :
 	@mkdir -p tzdata/
 	@curl --progress-bar 'ftp://ftp.iana.org/tz/tzdata-latest.tar.gz' -o tzdata-latest.tar.gz
 	@echo "Extracting TZ Database"
-	@tar -xzf tzdata-latest.tar.gz -C tzdata/
+	@tar -xzf tzdata-latest.tar.gz -C tzdata/ $(relevants)
 	@rm -fr tzdata-latest.tar.gz
 	@touch tzdata/downloaded
 
