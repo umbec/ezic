@@ -6,12 +6,8 @@
 -define(TZDIR, filename:join(code:priv_dir(ezic), "tzdata")).
 
 load() ->
-    case application:get_env(tzdata_dir) of
-        undefined ->
-            load(?TZDIR);
-        {ok, Dir} ->
-            load(Dir)
-    end.
+    Tzdir = application:get_env(ezic, tzdata_dir, ?TZDIR),
+    load(Tzdir).
 
 %% returns all records, parsed from the tzdata files in directory Dir.
 load(Dir) ->
@@ -36,7 +32,7 @@ load(Dir) ->
 % note: assumes every file in the folder is a tzdata file
 parse_dir(Dir) ->
     {ok, Files} = file:list_dir(Dir),
-    {ok, Relevants} = application:get_env(relevant_files),
+    {ok, Relevants} = application:get_env(ezic, relevant_files),
     FoundFiles = [File || File <- Files, lists:member(File, Relevants)],
     lists:flatten([ parse_file(filename:join(Dir,File)) || File <- FoundFiles]).
 

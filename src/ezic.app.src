@@ -9,7 +9,8 @@
                  ]},
   {mod, {ezic_app, ezic_db_ets}},
   {env, [
-         {db_dir, "db"},
+         {ets_db, "./ezic_timezones.ets"},
+         {maxyear, 2050},
          {relevant_files, ["africa","antarctica","asia",
                            "australasia","backward","backzone",
                            "etcetera","europe","leapseconds",

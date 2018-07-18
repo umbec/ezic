@@ -1,8 +1,5 @@
 -module(ezic_db_ets).
 -include("ezic.hrl").
--include_lib("eunit/include/eunit.hrl").
-
--define(DB_FILENAME, "db.e2f").
 
 -export([
      init/0
@@ -16,7 +13,6 @@
      , wipe/1
      , implementation/0
     ]).
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % PUBLIC API
@@ -75,11 +71,14 @@ wipe(Tab) ->
 
 
 init() ->
-    {ok, DbDir}= application:get_env(db_dir),
-    Filename= filename:join(DbDir, ?DB_FILENAME),
-    case db_sane(Filename) of
-    true -> load_tabfile(Filename);
-    false -> create_tables(Filename)
+    EtsFileDb = application:get_env(ezic, ets_db),
+    case load_tabfile(EtsFileDb) of
+    true ->
+
+        ok;
+    false ->
+        ok = create_tables(),
+        store_to_file(EtsFileDb)
     end,
     {ok, []}.
 
@@ -100,7 +99,7 @@ db_sane(Filename) ->
 
 
 %% creates the dets table and populates it.
-create_tables(Filename) ->
+create_tables() ->
     {ok, Zones, Rules, _, _} = ezic_record:separate(ezic_loader:load()),
 
     ets:new(zone, [duplicate_bag, named_table]),
@@ -114,36 +113,51 @@ create_tables(Filename) ->
     FlatZones = ezic_flatten:flatten(Zones, Rules),
     true = ets:insert(flatzone, FlatZones),
 
+    ok.
+
+store_to_file(undefined) ->
+    false;
+store_to_file({ok, Filename}) ->
+    store_to_file(Filename);
+store_to_file(Filename) when is_list(Filename) ->
     % combine into one ets
-    Ets= ets:new(ezic_db_ets, [duplicate_bag]),
+    Ets = ets:new(ezic_db_ets, [duplicate_bag]),
     ets:insert(Ets, ets:lookup(zone, zone)),
     ets:insert(Ets, ets:lookup(rule, rule)),
     ets:insert(Ets, ets:lookup(flatzone, flatzone)),
 
     % save to disk
-    ets:tab2file(Ets, Filename),
+    case ets:tab2file(Ets, Filename) of
+      ok ->
+        error_logger:info_msg("Saved preprocessed timezone database in ~s", [Filename]),
+        ok;
+      {error, Reason} ->
+        error_logger:warning_msg("Failed to persist preloaded timezone in ~s, ~p", [Filename, Reason])
+    end,
 
-    ets:delete(Ets),
-
-    ok.
-
+    ets:delete(Ets).
 
 
 %% loads or creates the dets table.
+load_tabfile(undefined) ->
+    false;
+load_tabfile({ok, Filename}) ->
+    db_sane(Filename) andalso load_tabfile(Filename);
 load_tabfile(Filename) ->
-    {ok, Ets}= ets:file2tab(Filename),
+    {ok, Ets} = ets:file2tab(Filename),
 
-    Zones= ets:lookup(Ets, zone),
+    Zones = ets:lookup(Ets, zone),
     ets:new(zone, [duplicate_bag, named_table]),
     ets:insert(zone, Zones),
 
-    Rules= ets:lookup(Ets, rule),
+    Rules = ets:lookup(Ets, rule),
     ets:new(rule, [duplicate_bag, named_table]),
     ets:insert(rule, Rules),
 
-    FlatZones= ets:lookup(Ets, flatzone),
+    FlatZones = ets:lookup(Ets, flatzone),
     ets:new(flatzone, [duplicate_bag, named_table]),
     ets:insert(flatzone, FlatZones),
 
     ets:delete(Ets),
-    ok.
+    error_logger:info_msg("Recovered preloaded timezone db from ~s", [Filename]),
+    true.

@@ -72,24 +72,24 @@ flatten_all_zones([], _AllRules, FlatZones) ->
     FlatZones;
 flatten_all_zones([Z1|_]= AllZones, AllRules, FlatZones) ->
     error_logger:info_msg("Flattening zones: ~s~n", [Z1#zone.name]),
-    {CurrentZones, RestZones}= ezic_zone:split_by_name(Z1, AllZones),
-    Flats= flatten_zone_set(CurrentZones, AllRules),
+    {CurrentZones, RestZones} = ezic_zone:split_by_name(Z1, AllZones),
+    Flats = flatten_zone_set(CurrentZones, AllRules),
     flatten_all_zones(RestZones, AllRules, Flats ++ FlatZones).
 
 
 
 contains_date2(#flatzone{utc_from=From, utc_to=To}, {Dt,#tztime{time=T, flag=F}})
   when F=:= u; F=:= g; F=:=z ->
-    Date={Dt, T},
+    Date = {Dt, T},
     ezic_date:compare(From, Date) andalso ezic_date:compare(Date, To);
 
 contains_date2(#flatzone{std_from=From, std_to=To}, {Dt,#tztime{time=T, flag=s}})  ->
-    Date={Dt, T},
+    Date = {Dt, T},
     ezic_date:compare(From, Date) andalso ezic_date:compare(Date, To);
 
 contains_date2(#flatzone{wall_from=From, wall_to=To}, {Dt,#tztime{time=T, flag=F}})
   when F=:=w; F=:=undefined ->
-    Date={Dt, T},
+    Date = {Dt, T},
     ezic_date:compare(From, Date) andalso ezic_date:compare(Date, To).
 
 
@@ -317,12 +317,7 @@ maxyear_reached(AnythingElse) ->
     erlang:error(bad_year, [{value, AnythingElse}]).
 
 get_maxyear() ->
-    case application:get_env(maxyear) of
-        {ok, Value} when is_integer(Value) andalso Value > 0 ->
-            Value;
-        _ ->
-            ?MAXYEAR
-    end.
+    application:get_env(ezic, maxyear, ?MAXYEAR).
 
 
 ms_guards(X, D) when X=:=u;X=:=g;X=:=z ->
