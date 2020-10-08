@@ -1,6 +1,5 @@
 
-relevants = africa antarctica asia australasia backward backzone etcetera europe leapseconds northamerica pacificnew southamerica systemv
-
+relevants = africa antarctica asia australasia europe northamerica southamerica etcetera factory backward backzone leapseconds
 download : tzdata/downloaded
 
 tzdata/downloaded :
